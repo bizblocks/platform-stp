@@ -1,4 +1,4 @@
-package com.groupstp.platform.web.simplecomment;
+package com.groupstp.platform.web.commentdialog;
 
 import com.haulmont.bali.util.ParamsMap;
 import com.haulmont.bali.util.Preconditions;
@@ -16,8 +16,8 @@ import java.util.Map;
  *
  * @author adiatullin
  */
-public class SimpleCommentDialog extends AbstractWindow {
-    public static final String SCREEN_ID = "platform-simple-comment-dialog";
+public class CommentDialog extends AbstractWindow {
+    public static final String SCREEN_ID = "platform-comment-dialog";
 
     private static final String COMMENT_REQUIRED = "comment-required";
     private static final String MAX_LENGTH = "max-length";
@@ -29,7 +29,7 @@ public class SimpleCommentDialog extends AbstractWindow {
      * @param commentRequired is comment are required to provide or not
      * @return opened dialog instance
      */
-    public static SimpleCommentDialog show(Frame frame, boolean commentRequired) {
+    public static CommentDialog show(Frame frame, boolean commentRequired) {
         return show(frame, commentRequired, null);
     }
 
@@ -41,10 +41,10 @@ public class SimpleCommentDialog extends AbstractWindow {
      * @param maxLength       maximum length of comment
      * @return opened dialog instance
      */
-    public static SimpleCommentDialog show(Frame frame, boolean commentRequired, @Nullable Integer maxLength) {
+    public static CommentDialog show(Frame frame, boolean commentRequired, @Nullable Integer maxLength) {
         Preconditions.checkNotNullArgument(frame, "Frame is empty");
 
-        return (SimpleCommentDialog) frame.openWindow(SCREEN_ID, WindowManager.OpenType.DIALOG,
+        return (CommentDialog) frame.openWindow(SCREEN_ID, WindowManager.OpenType.DIALOG,
                 ParamsMap.of(COMMENT_REQUIRED, commentRequired, MAX_LENGTH, maxLength));
     }
 
@@ -65,7 +65,7 @@ public class SimpleCommentDialog extends AbstractWindow {
 
         if (Boolean.TRUE.equals(params.get(COMMENT_REQUIRED))) {
             commentField.setRequired(true);
-            commentField.setRequiredMessage(getMessage("simpleCommentDialog.emptyComment"));
+            commentField.setRequiredMessage(getMessage("commentDialog.emptyComment"));
         }
         Integer maxLength = (Integer) params.get(MAX_LENGTH);
         if (maxLength != null && maxLength > 0) {
