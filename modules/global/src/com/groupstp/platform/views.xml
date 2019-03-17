@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+    <view class="com.groupstp.platform.entity.Employee"
+          extends="_local"
+          name="employee-with-user">
+        <property name="user"
+                  view="user-with-name"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Employee"
+          extends="_local"
+          name="employee-hierarchy">
+        <property name="manager"
+                  view="_minimal"/>
+        <property name="subordinates"
+                  view="_minimal"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Employee"
+          extends="_minimal"
+          name="employee-browse">
+        <property name="name"/>
+        <property name="fullName"/>
+        <property name="user"
+                  view="_minimal"/>
+        <property name="email"/>
+        <property name="manager"
+                  view="_minimal"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Employee"
+          extends="_local"
+          name="employee-edit">
+        <property name="user"
+                  view="user-with-name"/>
+        <property name="manager"
+                  view="_minimal"/>
+    </view>
+    <view class="com.haulmont.cuba.security.entity.User"
+          extends="_minimal"
+          name="user-with-name">
+        <property name="firstName"/>
+        <property name="middleName"/>
+        <property name="lastName"/>
+        <property name="email"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Project"
+          extends="_minimal"
+          name="project-browse">
+        <property name="name"/>
+        <property name="companies"
+                  view="_minimal"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Project"
+          extends="_local"
+          name="project-edit">
+        <property name="companies"
+                  view="_minimal"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Project"
+          extends="_local"
+          name="project-export">
+        <property name="companies"
+                  view="_minimal"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Supplier"
+          extends="_minimal"
+          name="supplier-browse">
+        <property name="name"/>
+        <property name="fullName"/>
+        <property name="taxNumber"/>
+        <property name="taxCode"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Supplier"
+          extends="_local"
+          name="supplier-edit">
+    </view>
+    <view class="com.groupstp.platform.entity.Company"
+          extends="_minimal"
+          name="company-browse">
+        <property name="fullName"/>
+        <property name="taxCode"/>
+    </view>
+    <view class="com.groupstp.platform.entity.Company"
+          extends="_local"
+          name="company-edit">
+    </view>
+    <view class="com.groupstp.platform.entity.Company"
+          extends="_local"
+          name="company-export">
+    </view>
+</views>

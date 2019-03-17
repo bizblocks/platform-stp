@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://employeeBrowse.caption"
+        class="com.groupstp.platform.web.employee.EmployeeBrowse"
+        focusComponent="table"
+        lookupComponent="table"
+        messagesPack="com.groupstp.platform.web.employee">
+    <dsContext>
+        <datasource id="employeeDs"
+                    class="com.groupstp.platform.entity.Employee"
+                    view="employee-edit"/>
+        <collectionDatasource id="subordinatesDs"
+                              class="com.groupstp.platform.entity.Employee"
+                              allowCommit="false"
+                              refreshMode="NEVER"/>
+        <groupDatasource id="employeesDs"
+                         class="com.groupstp.platform.entity.Employee"
+                         view="employee-browse">
+            <query>
+                <![CDATA[select e from plstp$Employee e order by e.email]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                description="Esc"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               pos="30"
+               reversePosition="true"
+               settingsEnabled="false"
+               width="100%">
+            <vbox id="lookupBox"
+                  expand="table"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <filter id="filter"
+                        applyTo="table"
+                        datasource="employeesDs">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="table"
+                            width="100%">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="name"/>
+                        <column id="fullName"/>
+                        <column id="user"/>
+                        <column id="email"/>
+                        <column id="manager.fullName" caption="msg://com.groupstp.platform.entity/Employee.manager"/>
+                    </columns>
+                    <rows datasource="employeesDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="table.create"/>
+                        <button id="editBtn"
+                                action="table.edit"/>
+                        <button id="removeBtn"
+                                action="table.remove"/>
+                    </buttonsPanel>
+                </groupTable>
+            </vbox>
+            <vbox id="editBox"
+                  expand="detailBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <vbox width="100%" spacing="true" id="detailBox" expand="subordinatesTable">
+                    <fieldGroup id="fieldGroup"
+                                datasource="employeeDs"
+                                width="100%">
+                        <column width="100%">
+                            <field property="name"/>
+                            <field property="fullName"/>
+                            <field property="user">
+                                <suggestionPickerField id="userField"
+                                                       datasource="employeeDs"
+                                                       inputPrompt="msg://employeeBrowse.enterUserName"
+                                                       property="user"/>
+                            </field>
+                            <field property="email"/>
+                            <field property="manager">
+                                <suggestionPickerField id="managerField"
+                                                       datasource="employeeDs"
+                                                       inputPrompt="msg://employeeBrowse.enterEmployeeName"
+                                                       property="manager"/>
+                            </field>
+                        </column>
+                    </fieldGroup>
+                    <table id="subordinatesTable" width="100%" caption="msg://com.groupstp.platform.entity/Employee.subordinates">
+                        <columns>
+                            <column id="name"/>
+                            <column id="fullName"/>
+                            <column id="email"/>
+                        </columns>
+                        <rows datasource="subordinatesDs"/>
+                        <rowsCount/>
+                    </table>
+                </vbox>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

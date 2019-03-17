@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://projectBrowse.caption"
+        class="com.groupstp.platform.web.project.ProjectBrowse"
+        focusComponent="table"
+        lookupComponent="table"
+        messagesPack="com.groupstp.platform.web.project">
+    <dsContext>
+        <datasource id="projectDs"
+                    class="com.groupstp.platform.entity.Project"
+                    view="project-edit">
+            <collectionDatasource id="companiesDs"
+                                  property="companies"/>
+        </datasource>
+        <groupDatasource id="projectsDs"
+                         class="com.groupstp.platform.entity.Project"
+                         view="project-browse">
+            <query>
+                <![CDATA[select e from plstp$Project e left join e.companies c order by e.name]]>
+                <filter>
+                    <and>
+                        <c>c.id in :param$companiesIds</c>
+                    </and>
+                </filter>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                description="Esc"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               pos="40"
+               reversePosition="true"
+               width="100%">
+            <vbox id="lookupBox"
+                  expand="table"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <filter id="filter"
+                        applyTo="table"
+                        datasource="projectsDs">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="table"
+                            multiselect="true"
+                            width="100%">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="name"/>
+                        <column id="companies"
+                                caption="msg://com.groupstp.platform.entity/Project.companies"/>
+                    </columns>
+                    <rows datasource="projectsDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="table.create"/>
+                        <button id="editBtn"
+                                action="table.edit"/>
+                        <button id="removeBtn"
+                                action="table.remove"/>
+                        <popupButton id="exportBtn"
+                                     caption="msg://projectBrowse.export"
+                                     icon="icons/download.png"/>
+                        <upload id="importBtn"
+                                dropZone="lookupBox"
+                                uploadButtonIcon="UPLOAD"/>
+                    </buttonsPanel>
+                </groupTable>
+            </vbox>
+            <vbox id="editBox"
+                  expand="detailBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <vbox id="detailBox"
+                      expand="companiesTable"
+                      spacing="true">
+                    <fieldGroup id="fieldGroup"
+                                datasource="projectDs"
+                                width="100%">
+                        <column width="100%">
+                            <field property="name"/>
+                            <field property="comment"
+                                   rows="5"/>
+                        </column>
+                    </fieldGroup>
+                    <table id="companiesTable"
+                           width="100%">
+                        <actions>
+                            <action id="add"/>
+                            <action id="remove"/>
+                        </actions>
+                        <columns>
+                            <column id="name"/>
+                            <column id="taxNumber"/>
+                        </columns>
+                        <rows datasource="companiesDs"/>
+                        <rowsCount/>
+                        <buttonsPanel id="companiesTableButtonsPanel"
+                                      alwaysVisible="true">
+                            <button id="companiesTableAddBtn"
+                                    action="companiesTable.add"/>
+                            <button id="companiesTableRemoveBtn"
+                                    action="companiesTable.remove"/>
+                        </buttonsPanel>
+                    </table>
+                </vbox>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

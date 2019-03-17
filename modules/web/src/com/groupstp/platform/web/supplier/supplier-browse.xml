@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://supplierBrowse.caption"
+        class="com.groupstp.platform.web.supplier.SupplierBrowse"
+        focusComponent="table"
+        lookupComponent="table"
+        messagesPack="com.groupstp.platform.web.supplier">
+    <dsContext>
+        <datasource id="supplierDs"
+                    class="com.groupstp.platform.entity.Supplier"
+                    view="supplier-edit"/>
+        <groupDatasource id="suppliersDs"
+                         class="com.groupstp.platform.entity.Supplier"
+                         view="supplier-browse">
+            <query>
+                <![CDATA[select e from plstp$Supplier e order by e.name]]>
+            </query>
+        </groupDatasource>
+    </dsContext>
+    <actions>
+        <action id="save"
+                caption="mainMsg://actions.Ok"
+                icon="icons/ok.png"
+                invoke="save"
+                shortcut="CTRL-ENTER"/>
+        <action id="cancel"
+                caption="mainMsg://actions.Cancel"
+                description="Esc"
+                icon="icons/cancel.png"
+                invoke="cancel"/>
+    </actions>
+    <dialogMode height="600"
+                width="800"/>
+    <layout>
+        <split id="split"
+               height="100%"
+               orientation="horizontal"
+               reversePosition="true"
+               width="100%"
+               settingsEnabled="false"
+               pos="30">
+            <vbox id="lookupBox"
+                  expand="table"
+                  height="100%"
+                  margin="false,true,false,false"
+                  spacing="true">
+                <filter id="filter"
+                        applyTo="table"
+                        datasource="suppliersDs">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="table"
+                            width="100%" multiselect="true">
+                    <actions>
+                        <action id="create"/>
+                        <action id="edit"/>
+                        <action id="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="name"/>
+                        <column id="fullName"/>
+                        <column id="taxNumber"/>
+                        <column id="taxCode"/>
+                    </columns>
+                    <rows datasource="suppliersDs"/>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel"
+                                  alwaysVisible="true">
+                        <button id="createBtn"
+                                action="table.create"/>
+                        <button id="editBtn"
+                                action="table.edit"/>
+                        <button id="removeBtn"
+                                action="table.remove"/>
+                        <button id="csvExportBtn"
+                                action="table.csvExport" icon="icons/download.png"/>
+                        <upload id="csvImportBtn"
+                                dropZone="lookupBox"
+                                uploadButtonCaption=""
+                                uploadButtonIcon="UPLOAD" fileStoragePutMode="MANUAL"/>
+                    </buttonsPanel>
+                </groupTable>
+            </vbox>
+            <vbox id="editBox"
+                  expand="fieldGroupBox"
+                  height="100%"
+                  margin="false,false,false,true"
+                  spacing="true">
+                <scrollBox id="fieldGroupBox" width="100%">
+                    <fieldGroup id="fieldGroup"
+                                datasource="supplierDs" width="100%">
+                        <column width="100%">
+                            <field property="name"/>
+                            <field property="fullName"/>
+                            <field property="taxNumber"/>
+                            <field property="taxCode"/>
+                            <field property="comment"
+                                   rows="5"/>
+                        </column>
+                    </fieldGroup>
+                </scrollBox>
+                <hbox id="actionsPane"
+                      spacing="true"
+                      visible="false">
+                    <button id="saveBtn"
+                            action="save"/>
+                    <button id="cancelBtn"
+                            action="cancel"/>
+                </hbox>
+            </vbox>
+        </split>
+    </layout>
+</window>

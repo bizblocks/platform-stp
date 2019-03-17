@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             version="2.0">
+    <persistence-unit name="platform-stp"
+                      transaction-type="RESOURCE_LOCAL">
+        <class>com.groupstp.platform.entity.Company</class>
+        <class>com.groupstp.platform.entity.Employee</class>
+        <class>com.groupstp.platform.entity.Project</class>
+        <class>com.groupstp.platform.entity.Supplier</class>
+    </persistence-unit>
+</persistence>
