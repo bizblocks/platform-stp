@@ -14,4 +14,6 @@
             template="com/groupstp/platform/web/codedialog/code-dialog.xml"/>
     <screen id="platform-email-dialog"
             template="com/groupstp/platform/web/email/email-dialog.xml"/>
+    <screen id="platform-message-dialog"
+            template="com/groupstp/platform/web/messagedialog/message-dialog.xml"/>
 </screen-config>

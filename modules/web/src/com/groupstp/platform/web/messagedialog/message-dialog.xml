@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://messageDialog.caption"
+        class="com.groupstp.platform.web.messagedialog.MessageDialog"
+        messagesPack="com.groupstp.platform.web.messagedialog">
+    <dialogMode height="600"
+                resizable="true"
+                width="800"/>
+    <layout expand="textArea" spacing="true">
+        <textArea id="textArea"
+                  editable="false"
+                  width="100%"/>
+        <hbox spacing="true" expand="fakeLabel" width="100%">
+            <button id="okBtn"
+                    caption="mainMsg://actions.Ok"
+                    icon="icons/ok.png"
+                    invoke="onOk"/>
+            <button id="cancelBtn"
+                    caption="mainMsg://actions.Cancel"
+                    icon="icons/cancel.png"
+                    invoke="onCancel"/>
+            <label id="fakeLabel"/>
+            <button id="copyBtn"/>
+        </hbox>
+    </layout>
+</window>
