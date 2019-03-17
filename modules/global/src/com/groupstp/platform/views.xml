@@ -72,6 +72,10 @@
           extends="_local"
           name="supplier-edit">
     </view>
+    <view class="com.groupstp.platform.entity.Supplier"
+          extends="_local"
+          name="supplier-export">
+    </view>
     <view class="com.groupstp.platform.entity.Company"
           extends="_minimal"
           name="company-browse">

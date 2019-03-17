@@ -21,6 +21,7 @@ import java.util.*;
  * @author adiatullin
  */
 public class EmployeeBrowse extends EntityCombinedScreen {
+
     @Inject
     protected DataManager dataManager;
     @Inject

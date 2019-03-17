@@ -54,7 +54,6 @@ public class CompanyBrowse extends EntityCombinedScreen {
     @Inject
     protected PopupButton exportBtn;
 
-
     @Override
     public void init(Map<String, Object> params) {
         super.init(params);

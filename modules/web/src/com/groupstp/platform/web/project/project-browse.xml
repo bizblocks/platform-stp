@@ -63,6 +63,7 @@
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
+                        <action id="excel"/>
                     </actions>
                     <columns>
                         <column id="name"/>
@@ -84,7 +85,9 @@
                                      icon="icons/download.png"/>
                         <upload id="importBtn"
                                 dropZone="lookupBox"
-                                uploadButtonIcon="UPLOAD"/>
+                                uploadButtonIcon="UPLOAD" fileStoragePutMode="MANUAL"/>
+                        <button id="excelBtn"
+                                action="table.excel"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -105,6 +108,7 @@
                                    rows="5"/>
                         </column>
                     </fieldGroup>
+                    <label value="msg://com.groupstp.platform.entity/Project.companies"/>
                     <table id="companiesTable"
                            width="100%">
                         <actions>

@@ -2,23 +2,29 @@ package com.groupstp.platform.web.supplier;
 
 import com.groupstp.platform.entity.Supplier;
 import com.groupstp.platform.service.CsvImportExportService;
+import com.groupstp.platform.service.ExtEntityImportExportService;
 import com.groupstp.platform.web.config.ProjectWebConfig;
+import com.haulmont.cuba.core.app.importexport.EntityImportView;
+import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.*;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.gui.components.EntityCombinedScreen;
 import com.haulmont.cuba.gui.components.FileUploadField;
-import com.haulmont.cuba.gui.components.actions.BaseAction;
+import com.haulmont.cuba.gui.components.PopupButton;
+import com.haulmont.cuba.gui.components.actions.ItemTrackingAction;
 import com.haulmont.cuba.gui.export.ByteArrayDataProvider;
 import com.haulmont.cuba.gui.export.ExportDisplay;
 import com.haulmont.cuba.gui.export.ExportFormat;
 import com.haulmont.cuba.gui.upload.FileUploadingAPI;
 import com.haulmont.cuba.security.entity.EntityOp;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -26,25 +32,30 @@ import java.util.*;
  * @author adiatullin
  */
 public class SupplierBrowse extends EntityCombinedScreen {
-
     private static final Logger log = LoggerFactory.getLogger(SupplierBrowse.class);
 
     @Inject
-    private DataManager dataManager;
+    protected DataManager dataManager;
     @Inject
-    private FileUploadingAPI uploadingAPI;
+    protected FileUploadingAPI uploadingAPI;
     @Inject
-    private CsvImportExportService csvService;
+    protected ExtEntityImportExportService entityImportExportService;
     @Inject
-    private Security security;
+    protected ViewRepository viewRepository;
     @Inject
-    private ExportDisplay exportDisplay;
+    protected CsvImportExportService csvService;
+    @Inject
+    protected Security security;
+    @Inject
+    protected ExportDisplay exportDisplay;
 
     @Inject
-    private ProjectWebConfig config;
+    protected ProjectWebConfig config;
 
     @Inject
-    private FileUploadField csvImportBtn;
+    protected FileUploadField importBtn;
+    @Inject
+    protected PopupButton exportBtn;
 
     @Override
     public void init(Map<String, Object> params) {
@@ -55,20 +66,35 @@ public class SupplierBrowse extends EntityCombinedScreen {
     }
 
     protected void initImport() {
-        csvImportBtn.addFileUploadErrorListener(e -> {
+        importBtn.addFileUploadErrorListener(e -> {
             showNotification(getMessage("supplierBrowse.importFailed"), NotificationType.ERROR);
             log.error("Failed to upload suppliers from csv", e.getCause());
         });
-        csvImportBtn.addFileUploadSucceedListener(e -> {
-            final UUID fileId = csvImportBtn.getFileId();
+        importBtn.addFileUploadSucceedListener(e -> {
+            final UUID fileId = importBtn.getFileId();
             try {
                 File file = uploadingAPI.getFile(fileId);
                 if (file != null) {
                     byte[] data = Files.readAllBytes(file.toPath());
 
-                    int count = csvService.importEntities(new CsvImportExportService.CsvDataContext(data, Supplier.class)
-                            .setPattern(config.getCsvSupplierPattern())
-                    );
+                    long count;
+                    String ext = FilenameUtils.getExtension(importBtn.getFileName());
+                    if ("json".equalsIgnoreCase(ext)) {
+                        Collection<Entity> importedEntities = entityImportExportService.importEntitiesFromJSON(
+                                new String(data, StandardCharsets.UTF_8), getImportingView());
+                        count = importedEntities.stream()
+                                .filter(entity -> entity instanceof Supplier)
+                                .count();
+                    } else if ("zip".equalsIgnoreCase(ext)) {
+                        Collection<Entity> importedEntities = entityImportExportService.importEntitiesFromZIP(
+                                data, getImportingView());
+                        count = importedEntities.stream()
+                                .filter(entity -> entity instanceof Supplier)
+                                .count();
+                    } else {
+                        count = csvService.importEntities(new CsvImportExportService.CsvDataContext(data, Supplier.class)
+                                .setPattern(config.getCsvSupplierPattern()));
+                    }
 
                     showNotification(String.format(getMessage("supplierBrowse.importedSuccess"), count), NotificationType.HUMANIZED);
                     getTable().getDatasource().refresh();
@@ -87,11 +113,39 @@ public class SupplierBrowse extends EntityCombinedScreen {
                 }
             }
         });
-        csvImportBtn.setEnabled(security.isEntityOpPermitted(Supplier.class, EntityOp.CREATE));
+        importBtn.setEnabled(security.isEntityOpPermitted(Supplier.class, EntityOp.CREATE));
     }
 
     protected void initExport() {
-        getTable().addAction(new BaseAction("csvExport") {
+        exportBtn.addAction(new ItemTrackingAction("zipExport") {
+            @Override
+            public String getCaption() {
+                return getMessage("supplierBrowse.zipExport");
+            }
+
+            @Override
+            public void actionPerform(Component component) {
+                //noinspection unchecked
+                Collection<Supplier> items = getTable().getSelected();
+                if (!CollectionUtils.isEmpty(items)) {
+                    try {
+                        byte[] data = entityImportExportService.exportEntitiesSeparatelyToZIP(items, getExportingView());
+                        exportDisplay.show(new ByteArrayDataProvider(data), getMessage("supplierBrowse.csvFileName"), ExportFormat.ZIP);
+                    } catch (Exception e) {
+                        showNotification(getMessage("supplierBrowse.exportFailed"), e.getMessage(), NotificationType.ERROR);
+                        log.error("Suppliers export failed", e);
+                    }
+                }
+            }
+
+            @Override
+            public boolean isPermitted() {
+                return super.isPermitted() &&
+                        !CollectionUtils.isEmpty(getTable().getSelected()) &&
+                        security.isEntityOpPermitted(Supplier.class, EntityOp.UPDATE);
+            }
+        });
+        exportBtn.addAction(new ItemTrackingAction("csvExport") {
             @Override
             public String getCaption() {
                 return getMessage("supplierBrowse.csvExport");
@@ -150,5 +204,18 @@ public class SupplierBrowse extends EntityCombinedScreen {
                         .setMaxResults(1))
                 .setView(View.MINIMAL));
         return CollectionUtils.isEmpty(same);
+    }
+
+    protected EntityImportView getImportingView() {
+        return new EntityImportView(Supplier.class)
+                .addLocalProperties();
+    }
+
+    protected View getExportingView() {
+        View view = viewRepository.getView(Supplier.class, "supplier-export");
+        if (view == null) {
+            throw new DevelopmentException("View 'supplier-export' for plstp$Supplier not found");
+        }
+        return view;
     }
 }

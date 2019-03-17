@@ -1,4 +1,4 @@
-package com.groupstp.platform.core.bean.util;
+package com.groupstp.platform.core.bean;
 
 import com.haulmont.cuba.core.global.Messages;
 

@@ -14,8 +14,9 @@ import java.util.Collection;
  * @author adiatullin
  */
 public class ExtEntityImportExportServiceBean extends EntityImportExportServiceBean implements ExtEntityImportExportService {
+
     @Inject
-    private ExtEntityImportExportAPI api;
+    protected ExtEntityImportExportAPI api;
 
     @Override
     public byte[] exportEntitiesSeparatelyToZIP(Collection<? extends Entity> entities, View view) {

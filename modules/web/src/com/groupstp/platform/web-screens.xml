@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <screen-config xmlns="http://schemas.haulmont.com/cuba/screens.xsd">
-
+    <screen id="plstp$Company.browse"
+            template="com/groupstp/platform/web/company/company-browse.xml"/>
+    <screen id="plstp$Employee.browse"
+            template="com/groupstp/platform/web/employee/employee-browse.xml"/>
+    <screen id="plstp$Project.browse"
+            template="com/groupstp/platform/web/project/project-browse.xml"/>
+    <screen id="plstp$Supplier.browse"
+            template="com/groupstp/platform/web/supplier/supplier-browse.xml"/>
 </screen-config>

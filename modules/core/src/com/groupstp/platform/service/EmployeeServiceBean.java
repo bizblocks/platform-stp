@@ -17,7 +17,7 @@ import java.util.Set;
 public class EmployeeServiceBean implements EmployeeService {
 
     @Inject
-    private EmployeeWorker worker;
+    protected EmployeeWorker worker;
 
     @Override
     public Employee getOrCreateEmployee(User user) {

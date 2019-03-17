@@ -1,7 +1,7 @@
 package com.groupstp.platform.core.bean.employee;
 
 import com.groupstp.platform.core.bean.EmployeeWorker;
-import com.groupstp.platform.core.bean.util.MessageableBean;
+import com.groupstp.platform.core.bean.MessageableBean;
 import com.groupstp.platform.entity.Employee;
 import com.haulmont.bali.util.Preconditions;
 import com.haulmont.cuba.core.EntityManager;
@@ -24,6 +24,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * Employee working bean
+ *
  * @author adiatullin
  */
 @Component(EmployeeWorker.NAME)
@@ -31,11 +33,11 @@ public class EmployeeWorkerBean extends MessageableBean implements EmployeeWorke
     private static final Logger log = LoggerFactory.getLogger(EmployeeWorkerBean.class);
 
     @Inject
-    private Persistence persistence;
+    protected Persistence persistence;
     @Inject
-    private Metadata metadata;
+    protected Metadata metadata;
     @Inject
-    private DataManager dataManager;
+    protected DataManager dataManager;
 
 
     @Override
@@ -128,7 +130,7 @@ public class EmployeeWorkerBean extends MessageableBean implements EmployeeWorke
         return name;
     }
 
-    private Set<Employee> getAllSubordinates(List<Employee> employees) {
+    protected Set<Employee> getAllSubordinates(List<Employee> employees) {
         if (CollectionUtils.isEmpty(employees)) {
             return Collections.emptySet();
         }
@@ -143,7 +145,7 @@ public class EmployeeWorkerBean extends MessageableBean implements EmployeeWorke
         return result;
     }
 
-    private void processEmployees(Set<Employee> result, Set<UUID> batch, int batchSize, List<Employee> employees, boolean put) {
+    protected void processEmployees(Set<Employee> result, Set<UUID> batch, int batchSize, List<Employee> employees, boolean put) {
         if (!CollectionUtils.isEmpty(employees)) {
             List<Employee> processChildren = null;
 
@@ -180,7 +182,7 @@ public class EmployeeWorkerBean extends MessageableBean implements EmployeeWorke
         }
     }
 
-    private void endEmployeesBatch(Set<Employee> result, Set<UUID> batch, int batchSize) {
+    protected void endEmployeesBatch(Set<Employee> result, Set<UUID> batch, int batchSize) {
         if (batch.size() > 0) {
             List<Employee> employees = reloadEmployees(batch);
             batch.clear();
@@ -189,7 +191,7 @@ public class EmployeeWorkerBean extends MessageableBean implements EmployeeWorke
         }
     }
 
-    private List<Employee> reloadEmployees(Set<UUID> ids) {
+    protected List<Employee> reloadEmployees(Set<UUID> ids) {
         return dataManager.loadList(LoadContext.create(Employee.class)
                 .setQuery(new LoadContext.Query("select e from plstp$Employee e where e.id in :ids")
                         .setParameter("ids", ids))

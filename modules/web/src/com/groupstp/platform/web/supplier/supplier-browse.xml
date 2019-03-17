@@ -55,6 +55,7 @@
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
+                        <action id="excel"/>
                     </actions>
                     <columns>
                         <column id="name"/>
@@ -72,12 +73,14 @@
                                 action="table.edit"/>
                         <button id="removeBtn"
                                 action="table.remove"/>
-                        <button id="csvExportBtn"
-                                action="table.csvExport" icon="icons/download.png"/>
-                        <upload id="csvImportBtn"
+                        <popupButton id="exportBtn"
+                                     caption="msg://supplierBrowse.export"
+                                     icon="icons/download.png"/>
+                        <upload id="importBtn"
                                 dropZone="lookupBox"
-                                uploadButtonCaption=""
                                 uploadButtonIcon="UPLOAD" fileStoragePutMode="MANUAL"/>
+                        <button id="excelBtn"
+                                action="table.excel"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>

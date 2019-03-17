@@ -59,6 +59,7 @@
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
+                        <action id="excel"/>
                     </actions>
                     <columns>
                         <column id="name"/>
@@ -77,6 +78,8 @@
                                 action="table.edit"/>
                         <button id="removeBtn"
                                 action="table.remove"/>
+                        <button id="excelBtn"
+                                action="table.excel"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
@@ -107,7 +110,11 @@
                             </field>
                         </column>
                     </fieldGroup>
-                    <table id="subordinatesTable" width="100%" caption="msg://com.groupstp.platform.entity/Employee.subordinates">
+                    <label value="msg://com.groupstp.platform.entity/Employee.subordinates"/>
+                    <table id="subordinatesTable" width="100%">
+                        <actions>
+                            <action id="excel"/>
+                        </actions>
                         <columns>
                             <column id="name"/>
                             <column id="fullName"/>
@@ -115,6 +122,11 @@
                         </columns>
                         <rows datasource="subordinatesDs"/>
                         <rowsCount/>
+                        <buttonsPanel id="subordinatesTableButtonsPanel"
+                                      alwaysVisible="true">
+                            <button id="subordinatesTableExcelBtn"
+                                    action="subordinatesTable.excel"/>
+                        </buttonsPanel>
                     </table>
                 </vbox>
                 <hbox id="actionsPane"

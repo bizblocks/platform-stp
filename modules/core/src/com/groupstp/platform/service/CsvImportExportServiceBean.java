@@ -1,8 +1,7 @@
 package com.groupstp.platform.service;
 
-
-import com.groupstp.platform.core.bean.util.MessageableBean;
-import com.groupstp.platform.core.bean.util.ParsingUtil;
+import com.groupstp.platform.core.bean.MessageableBean;
+import com.groupstp.platform.util.ParsingUtil;
 import com.haulmont.chile.core.model.MetaClass;
 import com.haulmont.chile.core.model.MetaProperty;
 import com.haulmont.cuba.core.entity.Entity;
@@ -28,6 +27,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
+ * CSV import exporter bean
+ *
  * @author adiatullin
  */
 @Service(CsvImportExportService.NAME)
@@ -35,11 +36,11 @@ public class CsvImportExportServiceBean extends MessageableBean implements CsvIm
     private static final Logger log = LoggerFactory.getLogger(CsvImportExportServiceBean.class);
 
     @Inject
-    private DataManager dataManager;
+    protected DataManager dataManager;
     @Inject
-    private ParsingUtil parsingUtil;
+    protected ParsingUtil parsingUtil;
     @Inject
-    private Metadata metadata;
+    protected Metadata metadata;
 
     @Override
     public int importEntities(CsvDataContext ctx) {

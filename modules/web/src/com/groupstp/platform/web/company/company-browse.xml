@@ -57,7 +57,7 @@
                         <action id="create"/>
                         <action id="edit"/>
                         <action id="remove"/>
-                        <action id="refreshState"/>
+                        <action id="excel"/>
                     </actions>
                     <columns>
                         <column id="code"/>
@@ -79,33 +79,35 @@
                         <popupButton id="exportBtn"
                                      caption="msg://companyBrowse.export"
                                      icon="icons/download.png"/>
-                        <button id="refreshStateBtn"
-                                action="table.refreshState"/>
                         <upload id="importBtn"
                                 dropZone="lookupBox"
-                                uploadButtonIcon="UPLOAD"/>
+                                uploadButtonIcon="UPLOAD" fileStoragePutMode="MANUAL"/>
+                        <button id="excelBtn"
+                                action="table.excel"/>
                     </buttonsPanel>
                 </groupTable>
             </vbox>
             <vbox id="editBox"
-                  expand="fieldGroup"
                   height="100%"
                   margin="false,false,false,true"
+                  expand="fieldGroupBox"
                   spacing="true">
-                <fieldGroup id="fieldGroup"
-                            datasource="companyDs"
-                            width="100%">
-                    <column width="100%">
-                        <field property="code"
-                               required="true"/>
-                        <field property="name"/>
-                        <field property="fullName"/>
-                        <field property="taxNumber"/>
-                        <field property="taxCode"/>
-                        <field property="comment"
-                               rows="5"/>
-                    </column>
-                </fieldGroup>
+                <scrollBox id="fieldGroupBox" width="100%">
+                    <fieldGroup id="fieldGroup"
+                                datasource="companyDs"
+                                width="100%">
+                        <column width="100%">
+                            <field property="code"
+                                   required="true"/>
+                            <field property="name"/>
+                            <field property="fullName"/>
+                            <field property="taxNumber"/>
+                            <field property="taxCode"/>
+                            <field property="comment"
+                                   rows="5"/>
+                        </column>
+                    </fieldGroup>
+                </scrollBox>
                 <hbox id="actionsPane"
                       spacing="true"
                       visible="false">

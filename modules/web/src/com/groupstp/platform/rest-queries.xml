@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<queries xmlns="http://schemas.haulmont.com/cuba/rest-queries.xsd">
+    <query entity="plstp$Supplier"
+           name="byExtKey"
+           view="_local">
+        <jpql>
+            <![CDATA[select e from plstp$Supplier e where e.taxNumber = :extKey]]>
+        </jpql>
+        <params>
+            <param name="extKey" type="java.lang.String"/>
+        </params>
+    </query>
+    <query entity="plstp$Employee"
+           name="byExtKey"
+           view="_local">
+        <jpql>
+            <![CDATA[select e from plstp$Employee e where e.email=:extKey]]>
+        </jpql>
+        <params>
+            <param name="extKey" type="java.lang.String"/>
+        </params>
+    </query>
+    <query entity="plstp$Company"
+           name="byExtKey"
+           view="_local">
+        <jpql>
+            <![CDATA[select e from plstp$Company e where c.name=:extKey]]>
+        </jpql>
+        <params>
+            <param name="extKey" type="java.lang.String"/>
+        </params>
+    </query>
+    <query entity="plstp$Project"
+           name="byExtKey"
+           view="_local">
+        <jpql>
+            <![CDATA[select e from plstp$Project e where c.name=:extKey]]>
+        </jpql>
+        <params>
+            <param name="extKey" type="java.lang.String"/>
+        </params>
+    </query>
+</queries>

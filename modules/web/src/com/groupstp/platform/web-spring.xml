@@ -12,11 +12,16 @@
             <map>
                 <entry key="plstp_EmployeeService"
                        value="com.groupstp.platform.service.EmployeeService"/>
-                <entry key="cuba_EntityImportExportService"
-                       value="com.groupstp.platform.service.ExtEntityImportExportService"/>
                 <entry key="plstp_CsvImportExportService"
                        value="com.groupstp.platform.service.CsvImportExportService"/>
+                <entry key="cuba_EntityImportExportService"
+                       value="com.groupstp.platform.service.ExtEntityImportExportService"/>
             </map>
         </property>
     </bean>
+
+    <bean id="cuba_FilterDelegate"
+          class="com.groupstp.platform.web.filter.ExtFilterDelegateImpl"
+          scope="prototype"/>
+
 </beans>

@@ -1,4 +1,4 @@
-package com.groupstp.platform.core.bean.util;
+package com.groupstp.platform.util;
 
 
 import com.haulmont.cuba.core.global.Messages;
@@ -26,7 +26,7 @@ public final class ParsingUtil {
     public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
     @Inject
-    private Messages messages;
+    protected Messages messages;
 
     /**
      * Parse and return value from text to expected representation java class.
@@ -110,7 +110,7 @@ public final class ParsingUtil {
         return null;
     }
 
-    private String prepareNumberText(String text) {
+    protected String prepareNumberText(String text) {
         return text.replace(",", ".").replaceAll("\\s", StringUtils.EMPTY);
     }
 

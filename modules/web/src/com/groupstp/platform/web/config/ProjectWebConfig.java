@@ -5,7 +5,7 @@ import com.haulmont.cuba.core.config.Property;
 import com.haulmont.cuba.core.config.defaults.Default;
 
 /**
- * Basic web module properties
+ * Basic project web module settings and properties
  *
  * @author adiatullin
  */

@@ -16,6 +16,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * Extended standard entity import export component
+ *
  * @author adiatullin
  */
 public class ExtEntityImportExport extends EntityImportExport implements ExtEntityImportExportAPI {

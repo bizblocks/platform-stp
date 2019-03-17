@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
-    <menu id="application-plstp" insertBefore="administration">
+    <menu id="catalogs"
+          insertBefore="administration">
+        <item screen="plstp$Company.browse"/>
+        <item screen="plstp$Project.browse"/>
+        <item screen="plstp$Employee.browse"/>
+        <item screen="plstp$Supplier.browse"/>
     </menu>
 </menu-config>

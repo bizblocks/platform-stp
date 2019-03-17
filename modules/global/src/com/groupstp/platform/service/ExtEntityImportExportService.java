@@ -12,7 +12,6 @@ import java.util.Collection;
  * @author adiatullin
  */
 public interface ExtEntityImportExportService extends EntityImportExportService {
-
     String NAME = EntityImportExportService.NAME;
 
     /**
