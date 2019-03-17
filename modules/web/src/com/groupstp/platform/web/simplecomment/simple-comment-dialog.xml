@@ -1,0 +1,17 @@
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.groupstp.platform.web.simplecomment.SimpleCommentDialog"
+        messagesPack="com.groupstp.platform.web.simplecomment"
+        caption="msg://simpleCommentDialog.caption">
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="commentField" spacing="true">
+
+        <textArea id="commentField" width="100%"/>
+
+        <flowBox spacing="true" align="MIDDLE_RIGHT" width="100%">
+            <button invoke="onOk" icon="EDITOR_OK" caption="mainMsg://actions.Ok"
+                    stylename="primary"/>
+            <button invoke="onCancel" icon="EDITOR_CANCEL" caption="mainMsg://actions.Cancel"/>
+        </flowBox>
+    </layout>
+</window>

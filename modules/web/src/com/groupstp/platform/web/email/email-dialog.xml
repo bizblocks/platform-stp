@@ -1,0 +1,46 @@
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        class="com.groupstp.platform.web.email.EmailDialog"
+        messagesPack="com.groupstp.platform.web.email"
+        caption="msg://emailDialog.caption">
+    <dialogMode height="800"
+                resizable="true"
+                width="1000"/>
+    <layout expand="message" spacing="true">
+        <vbox id="generalBox" width="100%">
+            <fieldGroup width="100%" id="fieldGroup">
+                <column width="100%">
+                    <field id="from" caption="msg://emailDialog.from">
+                        <textField id="from" align="MIDDLE_CENTER" width="100%"/>
+                    </field>
+                    <field id="to" caption="msg://emailDialog.to">
+                        <textField id="to" align="MIDDLE_CENTER" width="100%"/>
+                    </field>
+                    <field id="subject" caption="msg://emailDialog.subject">
+                        <textField id="subject" align="MIDDLE_CENTER" width="100%"/>
+                    </field>
+                    <field id="attachment" caption="msg://emailDialog.attachment">
+                        <upload id="attachment"
+                                fileStoragePutMode="MANUAL"
+                                uploadButtonIcon="icons/upload.png" uploadButtonCaption=""
+                                showClearButton="true" clearButtonCaption="" clearButtonIcon="icons/close.png"
+                                dropZone="generalBox"
+                                showFileName="true" align="MIDDLE_RIGHT" width="100%"/>
+                    </field>
+                </column>
+            </fieldGroup>
+        </vbox>
+
+        <groupBox id="detailsBox" width="100%" collapsable="true" collapsed="false" caption="msg://emailDialog.details"
+                  settingsEnabled="false">
+            <textArea id="detailsField" width="100%" height="80px" stylename="borderless"/>
+            <label/>
+        </groupBox>
+
+        <richTextArea id="message" width="100%" align="MIDDLE_CENTER"/>
+
+        <flowBox spacing="true" align="MIDDLE_RIGHT" width="100%">
+            <button id="send" invoke="onSend" icon="ENVELOPE_O" caption="msg://emailDialog.send"/>
+            <button id="close" invoke="onClose" icon="EDITOR_CANCEL" caption="msg://emailDialog.close"/>
+        </flowBox>
+    </layout>
+</window>

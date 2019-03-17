@@ -8,4 +8,10 @@
             template="com/groupstp/platform/web/project/project-browse.xml"/>
     <screen id="plstp$Supplier.browse"
             template="com/groupstp/platform/web/supplier/supplier-browse.xml"/>
+    <screen id="platform-simple-comment-dialog"
+            template="com/groupstp/platform/web/simplecomment/simple-comment-dialog.xml"/>
+    <screen id="platform-code-dialog"
+            template="com/groupstp/platform/web/codedialog/code-dialog.xml"/>
+    <screen id="platform-email-dialog"
+            template="com/groupstp/platform/web/email/email-dialog.xml"/>
 </screen-config>
