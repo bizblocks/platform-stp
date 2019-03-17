@@ -6,7 +6,8 @@ import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.View;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
-import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.nio.charset.StandardCharsets;
@@ -21,6 +22,7 @@ import java.util.Map;
  * @author adiatullin
  */
 public class ExtEntityImportExport extends EntityImportExport implements ExtEntityImportExportAPI {
+    private static final Logger log = LoggerFactory.getLogger(ExtEntityImportExport.class);
 
     @Override
     public byte[] exportEntitiesSeparatelyToZIP(Collection<? extends Entity> entities, View view) {
@@ -47,7 +49,11 @@ public class ExtEntityImportExport extends EntityImportExport implements ExtEnti
         } catch (Exception e) {
             throw new RuntimeException("Error on creating zip archive during entities export", e);
         } finally {
-            IOUtils.closeQuietly(zipOutputStream);
+            try {
+                zipOutputStream.close();
+            } catch (Exception ee) {
+                log.error("Failed to close the stream", ee);
+            }
         }
         return byteArrayOutputStream.toByteArray();
     }

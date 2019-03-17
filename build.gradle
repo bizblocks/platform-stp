@@ -17,7 +17,7 @@ buildscript {
     }
 }
 
-def modulePrefix = 'app'
+def modulePrefix = 'plstp'
 
 def globalModule = project(":${modulePrefix}-global")
 def coreModule = project(":${modulePrefix}-core")
@@ -32,8 +32,8 @@ apply(plugin: 'cuba')
 cuba {
     artifact {
         group = 'com.groupstp.platform'
-        version = '0.1'
-        isSnapshot = true
+        version = "1.0"
+        isSnapshot = false
     }
     tomcat {
         dir = "$project.rootDir/deploy/tomcat"
@@ -77,6 +77,13 @@ configure(globalModule) {
     dependencies {
         compile (group: 'com.opencsv', name: 'opencsv', version: '4.2')
         compile (group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.6')
+    }
+
+    jar {
+        manifest {
+            attributes('App-Component-Id': cuba.artifact.group)
+            attributes('App-Component-Version': cuba.artifact.version + (cuba.artifact.isSnapshot ? '-SNAPSHOT' : ''))
+        }
     }
 
 }
